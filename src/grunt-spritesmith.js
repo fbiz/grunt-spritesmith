@@ -96,6 +96,7 @@ module.exports = function (grunt) {
       var coordinates = result.coordinates,
           properties = result.properties,
           spritePath = data.imgPath || url.relative(destCSS, destImg),
+          spritePathAbs = destImg,
           cssVarMap = data.cssVarMap || function noop () {},
           cleanCoords = [];
 
@@ -112,12 +113,15 @@ module.exports = function (grunt) {
 
         // Extract out our name
         var name = nameParts.join('.'),
-            coords = coordinates[file];
+            coords = coordinates[file],
+            d = new Date();
 
         // Specify the image for the sprite
         coords.name = name;
         coords.source_image = file;
         coords.image = spritePath;
+        coords.now = [d.getFullYear(),d.getMonth(),d.getDay(),d.getTime()].join("-");
+        coords.distImg = spritePathAbs;
         coords.total_width = properties.width;
         coords.total_height = properties.height;
 
